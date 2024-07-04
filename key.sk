@@ -1,0 +1,89 @@
+# 암호 통신
+
+command /reset-key:
+	trigger:
+		delete {private-key}
+		delete {public-key}
+		delete {symmetric-key-upload}
+		delete {symmetric-key-download}
+		delete {Asymmetric-key-upload}
+		delete {Asymmetric-key-download}
+		
+
+command /private-key [<integer>]: # 정수
+	trigger:
+		if arg-1 is not set: # 만약 arg 1 적지 않으면
+			broadcast "arg-1 설정 X"
+		else if arg-1 is set: # arg-1 적으면 실행
+			set {private-key} to arg-1
+			broadcast "%{private-key}%"
+
+command /public-key [<integer>]: # 정수
+	trigger:
+		if arg-1 is not set: # 만약 arg 1 적지 않으면
+			broadcast "arg-1 설정 X"
+		else if arg-1 is set: # arg-1 적으면 실행
+			set {public-key} to arg-1
+			broadcast "%{public-key}%"
+			
+command /show-key:
+	trigger:
+		broadcast "%{private-key}%"
+		broadcast "%{public-key}%"
+
+command /symmetric-key-upload [<number>] [<integer>]: #  보낼 숫자 / private-key
+	trigger:
+		if arg-1 is set:
+			if arg-2 is {private-key}:
+				set {symmetric-key-upload} to arg-1 + {private-key} # 숫자 + private-key
+				broadcast "[secert-information] %{symmetric-key-upload}%"
+			else if arg-2 is not {private-key}:
+				broadcast "private-key 맞지 않음"
+		else if arg-1 is not set:
+			broadcast "arg-1 설정 X"
+
+command /symmetric-key-download [<number>] [<integer>]: # private-key
+	trigger:
+		if arg-1 is set:
+			if arg-2 is {private-key}:
+				set {symmetric-key-download} to {symmetric-key-upload} - {private-key} # 숫자 - private-key
+				broadcast "[secert-information] %{symmetric-key-download}%"
+			else if arg-2 is not {private-key}:
+				broadcast "private-key 가 맞지 않음"
+		else if arg-1 is not set:
+			broadcast "arg-1 설정 X"
+
+command /symmetric-key-information:
+	trigger:
+		broadcast "[symmetric-key] %{symmetric-key-upload}%"
+
+command /Asymmetric-key-upload [<number>] [<integer>]: #  보낼 숫자 / public-key
+	trigger:
+		if arg-1 is set:
+			if arg-2 is {public-key}:
+				set {Asymmetric-key-upload} to arg-1 * 2147483647
+				broadcast "[secert-information] %{Asymmetric-key-upload}%"
+			else if arg-2 is not {public-key}:
+				broadcast "public-key 맞지 않음"
+		else if arg-1 is not set:
+			broadcast "arg-1 설정 X"
+
+command /Asymmetric-key-download [<number>] [<integer>]: # private-key
+	trigger:
+		if arg-1 is set:
+			if arg-2 is {private-key}:
+				set {Asymmetric-key-download} to {Asymmetric-key-upload} / 2147483647
+				broadcast "[secert-information] %{Asymmetric-key-download}%"
+			else if arg-2 is not {private-key}:
+				broadcast "private-key 가 맞지 않음"
+		else if arg-1 is not set:
+			broadcast "arg-1 설정 X"
+
+command /Asymmetric-key-information:
+	trigger:
+		broadcast "[Asymmetric-key] %{Asymmetric-key-upload}%"
+
+
+
+
+
