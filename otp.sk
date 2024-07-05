@@ -1,0 +1,135 @@
+# OTP
+
+command /exit [<text>] [<number>]:
+	trigger:
+		if arg-1 is set:
+			if arg-2 is set:
+				if arg-1 is {otpid.%uuid of player%}:
+					if arg-2 is {otppw.%uuid of player%}:
+						delete {otpid.%uuid of player%}
+						delete {otppw.%uuid of player%}
+						broadcast "Your otp id and pw is delete"
+					else if arg-2 is not {otppw.%uuid of player%}:
+						broadcast "no otp pw right"
+				else if arg-1 is not {otpid.%uuid of player%}:
+					broadcast "no otp id right"
+			else if arg-2 is not set:
+				broadcast "arg-2 is not set"
+		else if arg-1 is not set:
+			broadcast "arg-1 isn't set?"
+
+command /register [<text>] [<number>]:
+	trigger:
+		if arg-1 is set:
+			if arg-2 is set:
+				set {otpid.%uuid of player%} to arg-1
+				set {otppw.%uuid of player%} to arg-2
+				broadcast "Your otp id and pw is '%{otpid.%uuid of player%}% / %{otppw.%uuid of player%}%'"
+			else if arg-2 is not set:
+				broadcast "arg-2 is not set"
+		else if arg-1 is not set:
+			broadcast "arg-1 isn't set?"
+
+## 시간 동기화 방식 ##
+## 시간 동기화 방식 ##
+
+every 45 seconds:
+	set {otpsyr} to random integer between 100000 and 999999 # 임이의 6자리 숫자 무작위 생성
+	loop 2 times:
+		broadcast "[sy] OTP: %{otpsyr}%"
+
+command /reset-otp:
+	trigger:
+		delete {otpid.%uuid of player%}
+		delete {otppw.%uuid of player%}
+		delete {otpsyc.%uuid of player%}
+		
+
+command /login.sy [<text>] [<number>]: 
+	trigger:
+		if arg-1 is set:
+			if arg-2 is set:
+				if arg-1 is {otpid.%uuid of player%}:
+					if arg-2 is {otppw.%uuid of player%}:
+						set {otpsyc.%uuid of player%} to true
+						broadcast "1 check successful!"
+						broadcast "./login.sy.otp [your otp numbers]"
+					else if arg-2 is not {otppw.%uuid of player%}:
+						broadcast "no otp pw right"
+				else if arg-1 is not {otpid.%uuid of player%}:
+					broadcast "no otp id right"
+			else if arg-2 is not set:
+				broadcast "arg-2 is not set"
+		else if arg-1 is not set:
+			broadcast "arg-1 isn't set?"
+
+command /login.sy.otp [<integer>]:
+	trigger:
+		if {otpsyc.%uuid of player%} is true:
+			if arg-1 is {otpsyr}:
+				broadcast "login successful!"
+				broadcast "--------------------"
+				loop 3 times:
+					broadcast " "
+				broadcast "it's done!"
+				loop 3 times:
+					broadcast " "
+				broadcast "--------------------"
+			else if arg-1 is not {otpsyr}:
+				broadcast "not right otp numbers"
+		else if {otpsyc.%uuid of player%} is not set:
+			broadcast "you can't approcach because you don't have permision"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
